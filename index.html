@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local HTML Captcha Test</title>
+    
+    <!-- 1. Load the ALTCHA widget script -->
+    <script async defer src="https://jsdelivr.net" type="module"></script>
+    
+    <style>
+        body { font-family: sans-serif; margin: 40px; background: #f9f9f9; }
+        form { background: white; padding: 20px; border-radius: 8px; max-width: 350px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        input, button { width: 100%; padding: 10px; margin-bottom: 15px; box-sizing: border-box; }
+        button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
+        button:hover { background: #0056b3; }
+        .success-message { color: green; font-weight: bold; display: none; margin-top: 15px; }
+    </style>
+</head>
+<body>
+
+    <!-- Removed the action attribute so it doesn't try to send anywhere -->
+    <form id="myForm">
+        <h3>Local No-Signup Form</h3>
+        
+        <input type="text" placeholder="Your Name" required>
+
+        <!-- 2. The reCAPTCHA-style checkbox widget -->
+        <!-- Uses ALTCHA's free, public API to handle the math challenge on your localhost -->
+        <altcha-widget 
+            id="captchaWidget"
+            challengeurl="https://altcha.org">
+        </altcha-widget>
+        <br>
+
+        <button type="submit">Submit Form</button>
+        <div id="successMsg" class="success-message">🎉 Captcha passed! Form processed locally.</div>
+    </form>
+
+    <script>
+        document.getElementById('myForm').addEventListener('submit', function(event) {
+            // Stop the form from trying to refresh the page or look for an endpoint
+            event.preventDefault();
+
+            // 3. Check if the user successfully completed the checkbox
+            const captchaWidget = document.getElementById('captchaWidget');
+            const captchaValue = captchaWidget.value; 
+
+            if (!captchaValue) {
+                alert('Please complete the "I am not a robot" checkbox first!');
+                return;
+            }
+
+            // 4. If passed, do whatever you want here!
+            document.getElementById('successMsg').style.display = 'block';
+            console.log('Form payload payload verified locally with payload payload:', captchaValue);
+        });
+    </script>
+
+</body>
+          </html>
+  
